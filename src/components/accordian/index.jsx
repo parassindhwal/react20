@@ -11,13 +11,23 @@ const Accordian = () => {
             setVisibleAnswer([visibleAnswer[0]])
         }
     }, [isMultiSelect])
+
+    const toggleSelection = (id) => {
+        setVisibleAnswer(prev => {
+            if(prev.includes(id)) {
+                return prev.filter(item => item !== id)
+            }
+            return isMultiSelect ? [...prev, id] : [id]
+        })
+    }
+
     return (
         <div className="flex flex-col items-center gap-2">
             <button className="cursor-pointer" onClick={() => setMultiSelect(prev => !prev)}>{isMultiSelect ? 'remove multi select':'add multi select'}</button>
             {data && data.length > 0 ? (
                 data.map(item => (
                     <div className="w-[300px] bg-red-50" key="{item.id}">
-                        <div className="flex cursor-pointer" onClick={() => isMultiSelect ? setVisibleAnswer([...visibleAnswer, item.id]) : setVisibleAnswer([item.id])}>
+                        <div className="flex cursor-pointer" onClick={() => toggleSelection(item.id)}>
                             <h2>{item.question}</h2>
                             <span>+</span>
                         </div>
